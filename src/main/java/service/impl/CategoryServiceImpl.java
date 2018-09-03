@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import mapper.CategoryMapper;
 import pojo.Category;
 import service.CategoryService;
+import util.Page;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -16,8 +17,33 @@ public class CategoryServiceImpl implements CategoryService {
 	CategoryMapper categoryMapper;
 	
 	@Override
-	public List<Category> list() {
-		return categoryMapper.list();
+	public List<Category> list(Page page) {
+		return categoryMapper.list(page);
+	}
+
+	@Override
+	public int total() {
+		return categoryMapper.total();
+	}
+
+	@Override
+	public void add(Category category) {
+		categoryMapper.add(category);
+	}
+
+	@Override
+	public void delete(int id) {
+		categoryMapper.delete(id);
+	}
+
+	@Override
+	public Category get(int id) {
+		return categoryMapper.get(id);
+	}
+
+	@Override
+	public void update(Category category) {
+		categoryMapper.update(category);
 	}
 
 }

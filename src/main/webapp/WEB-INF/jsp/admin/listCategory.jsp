@@ -42,8 +42,8 @@
 		                <td>${c.id}</td>
 		                <td><img height="40px" src="img/category/${c.id}.jpg"></td>
 		                <td>${c.name}</td>
-		                <td><a href="admin_category_edit?category.id=${c.id}"><span class="glyphicon glyphicon-edit"></a></td>
-		                <td><a deleteLink="true" href="admin_category_delete?category.id=${c.id}"><span class="glyphicon glyphicon-trash"></a></td>
+		                <td><a href="admin_category_edit?id=${c.id}"><span class="glyphicon glyphicon-edit"></a></td>
+		                <td><a deleteLink="true" href="admin_category_delete?id=${c.id}"><span class="glyphicon glyphicon-trash"></a></td>
 		                <td><a href="admin_property_list?category.id=${c.id}"><span class="glyphicon glyphicon-th-list"></span></a></td>                    
 						<td><a href="admin_product_list?category.id=${c.id}"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>   
 		            </tr>
@@ -53,7 +53,7 @@
 	</div>
 	
 	<div class="pageDiv">
-<%-- 		<%@include file="../include/admin/adminPage.jsp" %> --%>
+		<%@include file="../include/admin/adminPage.jsp" %>
 	</div>
 	
 	<div class="panel panel-warning addDiv">
@@ -63,7 +63,7 @@
 				<table 	class="addTable">
 					<tr>
 					    <td>分类名称</td>
-					    <td><input id="name" name="category.name" type="text" class="form-control"></td>
+					    <td><input id="name" name="name" type="text" class="form-control"></td>
 					</tr>
 					<tr>
 					    <td>分类图片</td>
