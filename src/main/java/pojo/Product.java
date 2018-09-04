@@ -18,6 +18,9 @@ public class Product {
     private Date createDate;
 
     private Integer cid;
+    
+    /*非数据库字段*/
+    private Category  category;
 
     public Integer getId() {
         return id;
@@ -82,4 +85,12 @@ public class Product {
     public void setCid(Integer cid) {
         this.cid = cid;
     }
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }
