@@ -1,9 +1,11 @@
 package pojo;
 
-public class Category {
+public class Property {
     private Integer id;
 
     private String name;
+
+    private Integer cid;
 
     public Integer getId() {
         return id;
@@ -19,5 +21,13 @@ public class Category {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
     }
 }

@@ -7,8 +7,6 @@ import util.Page;
 public interface CategoryService {
 	public List<Category> list();
 	
-	public int total();
-	
 	public void add(Category category);
 	
 	public void delete(int id);

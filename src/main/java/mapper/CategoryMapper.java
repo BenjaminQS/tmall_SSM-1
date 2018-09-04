@@ -1,19 +1,21 @@
 package mapper;
 
 import java.util.List;
-
 import pojo.Category;
+import pojo.CategoryExample;
 
 public interface CategoryMapper {
-	public List<Category> list();
-	
-	public int total();
-	
-	public void add(Category category);
-	
-	public void delete(int id);
-	
-	public Category get(int id);
-	
-	public void update(Category category);
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Category record);
+
+    int insertSelective(Category record);
+
+    List<Category> selectByExample(CategoryExample example);
+
+    Category selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Category record);
+
+    int updateByPrimaryKey(Category record);
 }
