@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import pojo.Category;
 import pojo.Product;
 
 public interface ProductService {
@@ -13,4 +14,8 @@ public interface ProductService {
     List list(int cid);
     
     void setFirstProductImage(Product p);
+    
+    void fill(List<Category> cs);
+    void fill(Category c);
+    void fillByRow(List<Category> cs);
 }

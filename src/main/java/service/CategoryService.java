@@ -2,7 +2,6 @@ package service;
 
 import java.util.List;
 import pojo.Category;
-import util.Page;
 
 public interface CategoryService {
 	public List<Category> list();
