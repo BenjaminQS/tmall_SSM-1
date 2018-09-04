@@ -6,8 +6,19 @@ public class Property {
     private String name;
 
     private Integer cid;
+    
+    /*非数据库字段*/
+    private Category category;
 
-    public Integer getId() {
+    public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Integer getId() {
         return id;
     }
 
