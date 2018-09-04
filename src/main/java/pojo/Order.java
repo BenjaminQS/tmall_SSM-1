@@ -1,6 +1,9 @@
 package pojo;
 
 import java.util.Date;
+import java.util.List;
+
+import service.OrderService;
 
 public class Order {
     private Integer id;
@@ -28,6 +31,39 @@ public class Order {
     private String status;
 
     private Integer uid;
+    
+    /*非数据库字段*/
+    private List<OrderItem> orderItems;
+    private User user;
+    private float total;
+    private int totalNumber;
+    
+    public String getStatusDesc(){
+        String desc ="未知";
+        switch(status){
+            case OrderService.waitPay:
+                desc="待付款";
+                break;
+            case OrderService.waitDelivery:
+                desc="待发货";
+                break;
+            case OrderService.waitConfirm:
+                desc="待收货";
+                break;
+            case OrderService.waitReview:
+                desc="等评价";
+                break;
+            case OrderService.finish:
+                desc="完成";
+                break;
+            case OrderService.delete:
+                desc="刪除";
+                break;
+            default:
+                desc="未知";
+        }
+        return desc;
+    }
 
     public Integer getId() {
         return id;
@@ -132,4 +168,36 @@ public class Order {
     public void setUid(Integer uid) {
         this.uid = uid;
     }
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public float getTotal() {
+		return total;
+	}
+
+	public int getTotalNumber() {
+		return totalNumber;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
+	}
+
+	public void setTotalNumber(int totalNumber) {
+		this.totalNumber = totalNumber;
+	}
 }
