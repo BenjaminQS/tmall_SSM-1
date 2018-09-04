@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import pojo.Category;
 import service.CategoryService;
 import util.ImageUtil;
@@ -29,8 +32,14 @@ public class CategoryController {
 	
 	@RequestMapping("admin_category_list")
 	public String list(Model model, Page page){
-		List<Category> cs= categoryService.list(page);
-		int total = categoryService.total();
+		//通过分页插件指定分页参数
+		PageHelper.offsetPage(page.getStart(), page.getCount());
+		//调用list() 获取对应分页的数据
+		List<Category> cs = categoryService.list();
+		//通过PageInfo获取总数
+		int total = (int) new PageInfo<>(cs).getTotal();
+//		List<Category> cs= categoryService.list(page);
+//		int total = categoryService.total();
 		page.setTotal(total);
         model.addAttribute("cs", cs);
         model.addAttribute("page",page);

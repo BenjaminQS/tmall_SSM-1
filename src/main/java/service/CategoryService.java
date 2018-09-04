@@ -5,7 +5,7 @@ import pojo.Category;
 import util.Page;
 
 public interface CategoryService {
-	public List<Category> list(Page page);
+	public List<Category> list();
 	
 	public int total();
 	
