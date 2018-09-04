@@ -8,8 +8,19 @@ public class PropertyValue {
     private Integer pid;
 
     private Integer ptid;
+    
+    /*非数据库字段*/
+    private Property property;
 
-    public Integer getId() {
+    public Property getProperty() {
+		return property;
+	}
+
+	public void setProperty(Property property) {
+		this.property = property;
+	}
+
+	public Integer getId() {
         return id;
     }
 
