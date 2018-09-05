@@ -52,22 +52,22 @@
 	    });
 	    
 	    //检查是否登陆 没有就弹出模态登陆窗口
-// 	    $(".buyLink").click(function(){
-// 	        var page = "forecheckLogin";
-// 	        $.get(
-// 	                page,
-// 	                function(result){
-// 	                    if("success"==result){
-// 	                    	var num = $(".productNumberSetting").val();
-// 	                        location.href= $(".buyLink").attr("href")+"&num="+num;	//把购买数量添加到href属性中
-// 	                    }
-// 	                    else{
-// 	                        $("#loginModal").modal('show');
-// 	                    }
-// 	                }
-// 	        );     
-// 	        return false;
-// 	    });
+	    $(".buyLink").click(function(){
+	        var page = "forecheckLogin";
+	        $.get(
+	                page,
+	                function(result){
+	                    if("success"==result){
+	                    	var num = $(".productNumberSetting").val();
+	                        location.href= $(".buyLink").attr("href")+"&num="+num;	//把购买数量添加到href属性中
+	                    }
+	                    else{
+	                        $("#loginModal").modal('show');
+	                    }
+	                }
+	        );     
+	        return false;
+	    });
 	    
 // 	    $(".addCartLink").click(function(){
 // 	        var page = "forecheckLogin";
@@ -103,31 +103,31 @@
 // 	        return false;
 // 	    });
 	    
-// 	    //模态登陆窗口的提交
-// 	    $("button.loginSubmitButton").click(function(){
-// 	    	var name = $("#name").val();
-// 	    	var password = $("#password").val();
-// 	    	if(0==name.length||0==password.length){
-// 	    		$("span.errorMessage").html("请输入账号密码");
-// 	    		$("div.loginErrorMessageDiv").show();			
-// 	    		return false;
-// 	    	}
-// 	    	var page = "foreloginAjax";
-// 	    	$.get(
-// 	                page,
-// 	                {"user.name":name,"user.password":password},
-// 	                function(result){
-// 	                	if("success"==result){
-// 	                		location.reload();
-// 	                	}
-// 	                	else{
-// 	                		$("span.errorMessage").html("账号密码错误");
-// 	                		$("div.loginErrorMessageDiv").show();	            		
-// 	                	}
-// 	                }
-// 	    	);			
-// 	    	return true;
-// 	    });
+	    //模态登陆窗口的提交
+	    $("button.loginSubmitButton").click(function(){
+	    	var name = $("#name").val();
+	    	var password = $("#password").val();
+	    	if(0==name.length||0==password.length){
+	    		$("span.errorMessage").html("请输入账号密码");
+	    		$("div.loginErrorMessageDiv").show();			
+	    		return false;
+	    	}
+	    	var page = "foreloginAjax";
+	    	$.get(
+	                page,
+	                {"name":name,"password":password},
+	                function(result){
+	                	if("success"==result){
+	                		location.reload();
+	                	}
+	                	else{
+	                		$("span.errorMessage").html("账号密码错误");
+	                		$("div.loginErrorMessageDiv").show();	            		
+	                	}
+	                }
+	    	);			
+	    	return true;
+	    });
 	    
 	})
 </script>

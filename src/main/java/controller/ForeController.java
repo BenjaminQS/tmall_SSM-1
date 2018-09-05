@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import pojo.Category;
 import pojo.Product;
@@ -111,4 +113,27 @@ public class ForeController {
     	return "fore/productPage";
     }
     
+    //检查是否登陆 用于模态登陆窗口
+    @RequestMapping("forecheckLogin")
+    @ResponseBody
+    public String checkLogin(HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	if(null != user)
+    		return "success";
+    	return "fail";
+    }
+    
+    //模态窗口登陆
+    @ResponseBody
+    @RequestMapping("foreloginAjax")
+    public String loginAjax(HttpSession session, @RequestParam("name") String name, @RequestParam("password") String password){
+    	name = HtmlUtils.htmlEscape(name);
+        User user = userService.get(name,password);
+        
+        if(null==user){
+            return "fail";
+        }
+        session.setAttribute("user", user);
+        return "success";
+    }
 }
