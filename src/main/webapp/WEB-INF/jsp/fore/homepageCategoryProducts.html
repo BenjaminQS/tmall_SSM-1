@@ -87,7 +87,7 @@
 				<br>
 				<c:forEach items="${c.products}" var="p" varStatus="st">
 					<c:if test="${st.count>=1 and st.count<=5}">
-						<a class="productItem" href="foreproduct?product.id=${p.id}">
+						<a class="productItem" href="foreproduct?id=${p.id}">
 							<img alt="" src="img/productSingle_middle/${p.firstProductImage.id}.jpg">
 							<span class="productItemDesc">[热销]${fn:substring(p.name, 0, 20)}</span>
 							<span class="productPrice"><fmt:formatNumber type="number" value="${p.promotePrice}" minFractionDigits="2"/></span>

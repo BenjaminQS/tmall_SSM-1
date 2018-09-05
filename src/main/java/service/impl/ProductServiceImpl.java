@@ -12,8 +12,10 @@ import pojo.Product;
 import pojo.ProductExample;
 import pojo.ProductImage;
 import service.CategoryService;
+import service.OrderItemService;
 import service.ProductImageService;
 import service.ProductService;
+import service.ReviewService;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -24,6 +26,10 @@ public class ProductServiceImpl implements ProductService{
 	CategoryService categoryService;
 	@Autowired
 	ProductImageService productImageService;
+	@Autowired
+	OrderItemService orderItemService;
+	@Autowired
+	ReviewService reviewService;
 
 	@Override
 	public void add(Product p) {
@@ -110,6 +116,21 @@ public class ProductServiceImpl implements ProductService{
             }
             c.setProductsByRow(productsByRow);
         }
+	}
+
+	@Override
+	public void setSaleAndReviewNumber(Product p) {
+		int saleCount = orderItemService.getSaleCount(p.getId());
+		p.setSaleCount(saleCount);
+		int reviewCount = reviewService.getCount(p.getId());
+		p.setReviewCount(reviewCount);
+	}
+
+	@Override
+	public void setSaleAndReviewNumber(List<Product> ps) {
+		for (Product p : ps) {
+			setSaleAndReviewNumber(p);
+		}
 	}
 
 }
