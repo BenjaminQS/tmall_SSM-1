@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pojo.Category;
+import pojo.User;
 import service.CategoryService;
 import service.OrderItemService;
 import service.OrderService;
@@ -44,6 +45,20 @@ public class ForeController {
         
         model.addAttribute("cs", cs);
         return "fore/homePage";
+    }
+    
+    @RequestMapping("foreregister")
+    public String register(Model model, User user){
+    	if(userService.isExist(user.getName())){
+    		String msg = "用户名已存在";
+    		model.addAttribute("msg", msg);
+    		
+    		return "fore/registerPage";
+    	}
+    	
+    	userService.add(user);
+    	
+    	return "fore/registerSuccessPage";
     }
 	
 }

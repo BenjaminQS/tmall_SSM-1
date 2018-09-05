@@ -34,7 +34,7 @@
 
 <body>
 	<nav class="top">
-		<a href="/tmall_SSH/forehome">
+		<a href="forehome">
 			<span class="glyphicon glyphicon-home redColor"></span>
 			天猫首页
 		</a>
@@ -43,17 +43,17 @@
 		
 		<c:if test="${!empty user}">
 			<a href="#nowhere">${user.name}</a>
-			<a href="/tmall_SSH/forelogout">退出</a>
+			<a href="forelogout">退出</a>
 		</c:if>
 		
 		<c:if test="${empty user}">
-			<a href="/tmall_SSH/fore/loginPage.jsp">请登录</a>
-			<a href="/tmall_SSH/fore/registerPage.jsp">免费注册</a>
+			<a href="loginPage">请登录</a>
+			<a href="registerPage">免费注册</a>
 		</c:if>
 		
 		<span class="pull-right">
-			<a href="/tmall_SSH/foremyorder">我的订单</a>
-			<a href="/tmall_SSH/forecart">
+			<a href="foremyorder">我的订单</a>
+			<a href="forecart">
 				<span class="glyphicon glyphicon-shopping-cart redColor"></span>
 				购物车<strong>${cartTotalItemNumber}</strong>件
 			</a>
