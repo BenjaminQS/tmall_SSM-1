@@ -24,7 +24,7 @@ public class PageController {
 	
 	@RequestMapping("loginPage")
     public String loginPage() {
-        return "fore/login";
+        return "fore/loginPage";
     }
 	
     @RequestMapping("forealipay")
