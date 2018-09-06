@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import comparator.ProductPriceComparator;
 import comparator.ProductReviewComparator;
 import comparator.ProductSaleCountComparator;
 import pojo.Category;
+import pojo.OrderItem;
 import pojo.Product;
 import pojo.ProductImage;
 import pojo.PropertyValue;
@@ -192,4 +194,80 @@ public class ForeController {
     	return "fore/searchResultPage";
     }
     
+    //立即购买
+    @RequestMapping("forebuyone")
+    public String buyone(int pid, int num, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	Product p = productService.get(pid);
+    	
+    	int oiid = 0;
+    	boolean found = false;
+    	List<OrderItem> ois = orderItemService.listByUser(user.getId());
+    	for (OrderItem oi : ois) {
+			if(oi.getPid().intValue() == pid){
+				oi.setNumber(oi.getNumber() + num);
+				orderItemService.update(oi);
+				oiid = oi.getId();
+				found = true;
+				break;
+			}
+		}
+    	if(!found){
+    		OrderItem oi = new OrderItem();
+        	oi.setNumber(num);
+        	oi.setPid(pid);
+        	oi.setUid(user.getId());
+        	orderItemService.add(oi);
+        	oiid = oi.getId();
+    	}
+    	
+    	return "redirect:foresettle?oiids="+oiid;
+    }
+    
+    //加入购物车
+    @RequestMapping("foreaddCart")
+    @ResponseBody
+    public String addCart(int pid, int num, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	Product p = productService.get(pid);
+    	
+    	boolean found = false;
+    	List<OrderItem> ois = orderItemService.listByUser(user.getId());
+    	for (OrderItem oi : ois) {
+			if(oi.getPid().intValue() == pid){
+				oi.setNumber(oi.getNumber() + num);
+				orderItemService.update(oi);
+				found = true;
+				break;
+			}
+		}
+    	if(!found){
+    		OrderItem oi = new OrderItem();
+        	oi.setNumber(num);
+        	oi.setPid(pid);
+        	oi.setUid(user.getId());
+        	orderItemService.add(oi);
+    	}
+    	
+    	return "success";
+    }
+    
+    //结算页
+    @RequestMapping("foresettle")
+    public String settle(Model model, String[] oiids, HttpSession session){
+    	List<OrderItem> ois = new ArrayList<>();
+    	float total = 0;
+    	for (String strid: oiids) {
+    		int oiid = Integer.parseInt(strid);
+			OrderItem oi = orderItemService.get(oiid);
+			ois.add(oi);
+			total += oi.getProduct().getPromotePrice() * oi.getNumber();
+		}
+    	
+    	session.setAttribute("ois", ois);	//为什么用session
+    	model.addAttribute("total", total);
+    	
+    	return "fore/settleAccountPage";
+    }
+        
 }
