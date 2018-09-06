@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
+import com.github.pagehelper.PageHelper;
+
 import comparator.ProductAllComparator;
 import comparator.ProductDateComparator;
 import comparator.ProductPriceComparator;
@@ -177,4 +179,17 @@ public class ForeController {
     	
     	return "fore/categoryPage";
     }
+    
+    //搜索页
+    @RequestMapping("foresearch")
+    public String search(Model model, String keyword){
+    	PageHelper.offsetPage(0,20);
+    	List<Product> ps = productService.search(keyword);
+    	productService.setSaleAndReviewNumber(ps);
+    	
+    	model.addAttribute("ps", ps);
+    	
+    	return "fore/searchResultPage";
+    }
+    
 }
