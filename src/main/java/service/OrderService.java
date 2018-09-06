@@ -19,5 +19,8 @@ public interface OrderService {
     Order get(int id);
     List list();
     
+    //事务添加订单
     float add(Order c,List<OrderItem> ois);
+    //查询某用户未删除订单
+    List list(int uid, String excludedStatus);
 }

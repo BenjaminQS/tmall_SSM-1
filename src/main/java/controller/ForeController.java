@@ -335,6 +335,7 @@ public class ForeController {
     	return "redirect:forepay?oid="+order.getId() +"&total="+total;
     }
     
+    //支付页 点击支付按钮 跳转到支付成功页
     @RequestMapping("forepaysuccess")
     public String paysuccess(int oid, float total, Model model) {
         Order order = orderService.get(oid);
@@ -345,6 +346,91 @@ public class ForeController {
         model.addAttribute("o", order);
         
         return "fore/paySuccessPage";
+    }
+    
+    //我的订单
+    @RequestMapping("foremyorder")
+    public String myorder(Model model, HttpSession session){
+    	User user =(User)  session.getAttribute("user");
+    	
+        List<Order> os= orderService.list(user.getId(),OrderService.delete);
+        orderItemService.fill(os);
+ 
+        model.addAttribute("os", os);
+ 
+        return "fore/myorderPage";
+    }
+    
+    //订单页 确认收货按钮 跳转到确认收货页
+    @RequestMapping("foreconfirmPay")
+    public String confirmPay(Model model, int oid){
+    	Order o = orderService.get(oid);
+	    orderItemService.fill(o);
+	    
+	    model.addAttribute("o", o);
+	    
+	    return "fore/confirmPage";
+    }
+    
+    //确认收货页 确认按钮
+    @RequestMapping("foreorderfinished")
+    public String orderfinished(int oid){
+    	Order o = orderService.get(oid);
+        o.setStatus(OrderService.waitReview);
+        o.setConfirmDate(new Date());
+        orderService.update(o);
+        
+        return "fore/orderFinishedPage";
+    }
+    
+    //订单页 评价按钮 跳转到评价页
+    @RequestMapping("forereview")
+    public String review(Model model, int oid){
+    	Order o = orderService.get(oid);
+        orderItemService.fill(o);
+        
+        Product p = o.getOrderItems().get(0).getProduct();
+        productService.setSaleAndReviewNumber(p);
+        
+        List<Review> reviews = reviewService.list(p.getId());
+        
+        model.addAttribute("p", p);
+        model.addAttribute("o", o);
+        model.addAttribute("reviews", reviews);
+        
+        return "fore/reviewPage";
+    }
+    
+    //评价页 提交评价
+    @RequestMapping("foredoreview")
+    public String doreview(Model model,HttpSession session,@RequestParam("oid") int oid,@RequestParam("pid") int pid,String content){
+    	Order o = orderService.get(oid);
+        o.setStatus(OrderService.finish);
+        orderService.update(o);
+     
+        User user =(User)  session.getAttribute("user");
+        Product p = productService.get(pid);
+        content = HtmlUtils.htmlEscape(content);
+        
+        Review review = new Review();
+        review.setContent(content);
+        review.setPid(pid);
+        review.setCreateDate(new Date());
+        review.setUid(user.getId());
+        reviewService.add(review);
+     
+        return "redirect:forereview?oid="+oid+"&showonly=true";
+    }
+    
+    //订单页 删除订单
+    @RequestMapping("foredeleteOrder")
+    @ResponseBody
+    public String deleteOrder( Model model,int id){
+        Order o = orderService.get(id);
+        o.setStatus(OrderService.delete);
+        orderService.update(o);
+        
+        return "success";
     }
     
 }
