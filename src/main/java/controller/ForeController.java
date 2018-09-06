@@ -269,5 +269,48 @@ public class ForeController {
     	
     	return "fore/settleAccountPage";
     }
-        
+    
+    //购物车
+    @RequestMapping("forecart")
+    public String cart(Model model, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	List<OrderItem> ois = orderItemService.listByUser(user.getId());
+    	
+    	model.addAttribute("ois", ois);
+    	
+    	return "fore/shoppingcartPage";
+    }
+    
+    //修改购物车订单数量
+    @RequestMapping("forechangeOrderItem")
+    @ResponseBody
+    public String changeOrderItem(int pid, int num, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	if(null==user)
+            return "fail";
+    	
+    	List<OrderItem> ois = orderItemService.listByUser(user.getId());
+    	for (OrderItem oi : ois) {
+            if(oi.getProduct().getId().intValue()==pid){
+                oi.setNumber(num);
+                orderItemService.update(oi);
+                break;
+            }
+        }
+    	
+    	return "success";
+    }
+    
+    //删除购物车订单项
+    @RequestMapping("foredeleteOrderItem")
+    @ResponseBody
+    public String deleteOrderItem(int id, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	if(null==user)
+            return "fail";
+    	
+    	orderItemService.delete(id);
+    	return "success";
+    }
+    
 }
