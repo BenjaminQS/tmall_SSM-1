@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
+import comparator.ProductAllComparator;
+import comparator.ProductDateComparator;
+import comparator.ProductPriceComparator;
+import comparator.ProductReviewComparator;
+import comparator.ProductSaleCountComparator;
 import pojo.Category;
 import pojo.Product;
 import pojo.ProductImage;
@@ -135,5 +141,40 @@ public class ForeController {
         }
         session.setAttribute("user", user);
         return "success";
+    }
+    
+    //分类页
+    @RequestMapping("forecategory")
+    public String category(Model model, int id, String sort){
+    	Category c = categoryService.get(id);
+    	productService.fill(c);
+        productService.setSaleAndReviewNumber(c.getProducts());
+
+        if(null!=sort){
+            switch(sort){
+                case "review":
+                    Collections.sort(c.getProducts(),new ProductReviewComparator());
+                    break;
+                case "date" :
+                    Collections.sort(c.getProducts(),new ProductDateComparator());
+                    break;
+ 
+                case "saleCount" :
+                    Collections.sort(c.getProducts(),new ProductSaleCountComparator());
+                    break;
+ 
+                case "price":
+                    Collections.sort(c.getProducts(),new ProductPriceComparator());
+                    break;
+ 
+                case "all":
+                    Collections.sort(c.getProducts(),new ProductAllComparator());
+                    break;
+            }
+        }
+        
+    	model.addAttribute("c", c);
+    	
+    	return "fore/categoryPage";
     }
 }
