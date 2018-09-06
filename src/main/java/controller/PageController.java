@@ -27,9 +27,9 @@ public class PageController {
         return "fore/loginPage";
     }
 	
-    @RequestMapping("forealipay")
-    public String alipay(){
-        return "fore/alipay";
+    @RequestMapping("forepay")
+    public String pay(){
+        return "fore/payPage";
     }
 	
 }

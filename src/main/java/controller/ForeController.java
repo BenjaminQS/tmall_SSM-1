@@ -1,11 +1,14 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import comparator.ProductPriceComparator;
 import comparator.ProductReviewComparator;
 import comparator.ProductSaleCountComparator;
 import pojo.Category;
+import pojo.Order;
 import pojo.OrderItem;
 import pojo.Product;
 import pojo.ProductImage;
@@ -311,6 +315,36 @@ public class ForeController {
     	
     	orderItemService.delete(id);
     	return "success";
+    }
+    
+    //生成订单 跳转到支付页
+    @RequestMapping("forecreateOrder")
+    public String createOrder(Model model, Order order, HttpSession session){
+    	User user =(User)  session.getAttribute("user");
+    	
+    	String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+    	order.setOrderCode(orderCode);
+        order.setCreateDate(new Date());
+        order.setUid(user.getId());
+        order.setStatus(OrderService.waitPay);
+        
+        List<OrderItem> ois= (List<OrderItem>) session.getAttribute("ois");	//显示结算的的时候 把订单项放到了session中
+        
+        float total =orderService.add(order,ois);
+    	
+    	return "redirect:forepay?oid="+order.getId() +"&total="+total;
+    }
+    
+    @RequestMapping("forepaysuccess")
+    public String paysuccess(int oid, float total, Model model) {
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.waitDelivery);
+        order.setPayDate(new Date());
+        orderService.update(order);
+        
+        model.addAttribute("o", order);
+        
+        return "fore/paySuccessPage";
     }
     
 }

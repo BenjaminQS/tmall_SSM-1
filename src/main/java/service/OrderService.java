@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import pojo.Order;
+import pojo.OrderItem;
 
 public interface OrderService {
 	String waitPay = "waitPay";
@@ -17,4 +18,6 @@ public interface OrderService {
     void update(Order c);
     Order get(int id);
     List list();
+    
+    float add(Order c,List<OrderItem> ois);
 }
